@@ -1,0 +1,50 @@
+<h1>✅ Todo List (Angular 17)</h1>
+
+<div class="todo-form">
+  <input [ngModel]="todoService.newTodo()" (ngModelChange)="todoService.newTodo.set($event)"
+    placeholder="Enter new todo" />
+
+  <button (click)="todoService.addTodo()">Add</button>
+</div>
+
+@if (todoService.allTodos().length === 0) {
+  <p>No todos yet!</p>
+} @else {
+  <ul class="todo-list">
+    @for (item of todoService.allTodos(); track item.id) {
+
+      @if(isEditingId(item.id)){
+        <li>
+          <input #inputText [value]="item.text">
+          <button class="btn" (click)="saveEdit(item.id, inputText.value)">Save</button>
+          <button class="btn" (click)="cancelEdit()">Cancel</button>
+        </li>
+      }
+      @else{
+        <li [class.completed]="item.completed">
+          <div class="left">
+            <input type="checkbox" [checked]="item.completed" (change)="todoService.toggleTodo(item.id)" />
+            <span class="text">{{ item.text }}</span>
+          </div>
+
+          <div class="right">
+            <button class=" delete-btn btn" (click)="todoService.deleteTodo(item.id)">Delete</button>
+            <button class="btn" (click)="editTodo(item.id)">Edit</button>
+          </div>
+      </li>
+      }
+    }
+  </ul>
+  }
+
+<h2>Completed Todos</h2>
+<ul>
+  @for (todo of todoService.completedTodos(); track todo.id) {
+  <li style="text-decoration: line-through;">
+    {{ todo.text }}
+  </li>
+  }
+  @empty{
+  <li>No data</li>
+  }
+</ul>

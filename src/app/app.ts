@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
+import { Todo } from '../components/todo/todo';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [Todo],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
